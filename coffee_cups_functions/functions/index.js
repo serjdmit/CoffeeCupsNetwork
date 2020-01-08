@@ -1,8 +1,13 @@
 const functions = require("firebase-functions");
-
 const app = require("express")();
+const FBAuth = require("./util/fbAuth");
 
-const { getAllCups, postOneCup } = require("./handlers/cups");
+const {
+    getAllCups,
+    postOneCup,
+    getCup,
+    commentOnCup
+} = require("./handlers/cups");
 const {
     signup,
     login,
@@ -11,11 +16,11 @@ const {
     getAuthenticatedUser
 } = require("./handlers/users");
 
-const FBAuth = require("./util/fbAuth");
-
 //Cup routes
 app.get("/cups", getAllCups);
 app.post("/cup", FBAuth, postOneCup);
+app.get("/cup/:cupId", getCup);
+app.post("/cup/:cupId/comment", FBAuth, commentOnCup);
 
 //Users routes
 app.post("/signup", signup);
