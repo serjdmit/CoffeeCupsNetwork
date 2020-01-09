@@ -6,7 +6,10 @@ const {
     getAllCups,
     postOneCup,
     getCup,
-    commentOnCup
+    commentOnCup,
+    likeCup,
+    unlikeCup,
+    deleteCup
 } = require("./handlers/cups");
 const {
     signup,
@@ -20,6 +23,9 @@ const {
 app.get("/cups", getAllCups);
 app.post("/cup", FBAuth, postOneCup);
 app.get("/cup/:cupId", getCup);
+app.delete("/cup/:cupId", FBAuth, deleteCup);
+app.post("/cup/:cupId/like", FBAuth, likeCup);
+app.post("/cup/:cupId/unlike", FBAuth, unlikeCup);
 app.post("/cup/:cupId/comment", FBAuth, commentOnCup);
 
 //Users routes
