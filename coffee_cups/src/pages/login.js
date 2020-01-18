@@ -8,34 +8,10 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import AppIcon from "../images/icon.svg";
+import { ReactComponent as AppIcon } from "../images/icon.svg";
 
 const useStyles = makeStyles(theme => ({
-    form: {
-        textAlign: "center",
-        justifyContent: "flex-start"
-    },
-    pageTitle: {
-        margin: "10px auto"
-    },
-    textField: {
-        margin: "10px auto"
-    },
-    image: {
-        margin: "20px auto"
-    },
-    customError: {
-        color: "red",
-        fontSize: "0.8rem",
-        marginTop: 10
-    },
-    button: {
-        marginTop: 20,
-        position: "relative"
-    },
-    progress: {
-        position: "absolute"
-    }
+    ...theme.spreadIt
 }));
 
 const Login = props => {
@@ -62,6 +38,7 @@ const Login = props => {
             .post("/login", userData)
             .then(res => {
                 console.log(res.data);
+                localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
                 setLoading(false);
                 props.history.push("/");
             })
@@ -76,11 +53,7 @@ const Login = props => {
         <Grid container className={classes.form}>
             <Grid item sm></Grid>
             <Grid item sm>
-                <img
-                    src={AppIcon}
-                    alt="Coffee image"
-                    сlassName={classes.image}
-                />
+                <AppIcon alt="Coffee image" className={classes.image} />
                 <Typography variant="h2" className={classes.pageTitle}>
                     Login
                 </Typography>
