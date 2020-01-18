@@ -7,8 +7,8 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 //Pages
 import Home from "./pages/home";
-import login from "./pages/login";
-import signup from "./pages/signup";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 
 const theme = createMuiTheme({
     palette: {
@@ -39,8 +39,8 @@ function App() {
                     <div className="container">
                         <Switch>
                             <Route exact path="/" component={Home} />
-                            <Route exact path="/login" component={login} />
-                            <Route exact path="/signup" component={signup} />
+                            <Route exact path="/login" component={Login} />
+                            <Route exact path="/signup" component={Signup} />
                         </Switch>
                     </div>
                 </Router>
