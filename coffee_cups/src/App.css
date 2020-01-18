@@ -1,3 +1,8 @@
+html,
+body {
+    background-color: #fdfff5;
+}
+
 .container {
     margin: 80px auto 0;
     max-width: 1200px;
@@ -5,4 +10,9 @@
 
 .nav-container {
     margin: auto;
+}
+
+a {
+    text-decoration: none;
+    color: #8d6d4f;
 }
