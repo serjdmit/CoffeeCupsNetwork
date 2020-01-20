@@ -6,8 +6,9 @@ import Grid from '@material-ui/core/Grid';
 
 //Components
 import Cup from '../components/Cup';
+import Profile from '../components/Profile';
 
-const Home = props => {
+const Home = () => {
   const [res] = useAxios('/cups');
   const cups = res.data;
 
@@ -22,7 +23,7 @@ const Home = props => {
         <div>{recentCupsMarkup}</div>
       </Grid>
       <Grid item sm={4} xs={12}>
-        <p>Profile</p>
+        <Profile />
       </Grid>
     </Grid>
   );
