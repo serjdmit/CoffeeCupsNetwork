@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ReactComponent as AppIcon } from '../images/icon.svg';
-
-import axios from 'axios';
 
 //MUI
 import Button from '@material-ui/core/Button';
@@ -13,26 +11,40 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
+//Redux
+import { connect } from 'react-redux';
+import { signupUser } from '../redux/actions/userActions';
+
 const useStyles = makeStyles(theme => ({
   ...theme.spreadIt
 }));
 
 const Signup = props => {
+  const {
+    UI: { loading }
+  } = props;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [handle, setHandle] = useState('');
-  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState('');
   const classes = useStyles();
 
+  useEffect(() => {
+    if (props.UI.errors) {
+      setErrors(props.UI.errors);
+    }
+  }, [props.UI]);
+
   Signup.propTypes = {
-    classes: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    UI: PropTypes.object.isRequired,
+    signupUser: PropTypes.func.isRequired
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    setLoading(true);
 
     const newUserData = {
       email: email,
@@ -40,21 +52,7 @@ const Signup = props => {
       confirmPassword: confirmPassword,
       handle: handle
     };
-
-    axios
-      .post('/signup', newUserData)
-      .then(res => {
-        console.log(res.data);
-        localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-        setLoading(false);
-        props.history.push('/');
-      })
-      .catch(err => {
-        setErrors(err.response.data);
-        setLoading(false);
-      });
-
-    console.log(email, password);
+    props.signupUser(newUserData, props.history);
   };
   return (
     <Grid container className={classes.form}>
@@ -142,4 +140,9 @@ const Signup = props => {
   );
 };
 
-export default Signup;
+const mapStateToProps = state => ({
+  user: state.user,
+  UI: state.UI
+});
+
+export default connect(mapStateToProps, { signupUser })(Signup);
