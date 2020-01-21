@@ -28,7 +28,7 @@ export default {
       margin: '10px auto'
     },
     image: {
-      margin: '20px auto'
+      margin: '50px auto'
     },
     customError: {
       color: 'red',
