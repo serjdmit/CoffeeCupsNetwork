@@ -1,5 +1,9 @@
-import React from 'react';
-import useAxios from 'axios-hooks';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+//Redux
+import { connect } from 'react-redux';
+import { getCups } from '../redux/actions/dataActions';
 
 //MUI
 import Grid from '@material-ui/core/Grid';
@@ -8,12 +12,20 @@ import Grid from '@material-ui/core/Grid';
 import Cup from '../components/Cup';
 import Profile from '../components/Profile';
 
-const Home = () => {
-  const [res] = useAxios('/cups');
-  const cups = res.data;
+const Home = props => {
+  useEffect(() => {
+    if (props.data.cups !== []) {
+      props.getCups();
+    }
+  }, []);
+  Home.propTypes = {
+    getCups: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
+  };
+  const { cups, loading } = props.data;
 
-  let recentCupsMarkup = cups ? (
-    cups.map((cup, index) => <Cup cup={cup} key={cup.cupId} />)
+  let recentCupsMarkup = !loading ? (
+    cups.map(cup => <Cup cup={cup} key={cup.cupId} />)
   ) : (
     <p>Loading...</p>
   );
@@ -29,4 +41,8 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = state => ({
+  data: state.data
+});
+
+export default connect(mapStateToProps, { getCups })(Home);

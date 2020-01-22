@@ -2,7 +2,9 @@ import {
   SET_USER,
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
-  LOADING_USER
+  LOADING_USER,
+  LIKE_CUP,
+  UNLIKE_CUP
 } from '../types';
 
 const initialState = {
@@ -10,7 +12,7 @@ const initialState = {
   loading: false,
   credentials: {},
   likes: [],
-  notofications: []
+  notifications: []
 };
 
 export default function(state = initialState, action) {
@@ -25,6 +27,22 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case LIKE_CUP:
+      return {
+        ...state,
+        likes: [
+          ...state.likes,
+          {
+            userHandle: state.credentials.handle,
+            cupId: action.payload.cupId
+          }
+        ]
+      };
+    case UNLIKE_CUP:
+      return {
+        ...state,
+        likes: state.likes.filter(like => like.cupId !== action.payload.cupId)
       };
     default:
       return state;
