@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import MyButton from '../util/MyButton';
 
 //Redux
 import { connect } from 'react-redux';
@@ -65,11 +66,13 @@ const EditDetails = props => {
   const classes = useStyles();
   return (
     <Fragment>
-      <Tooltip title="Edit details" placement="top">
-        <IconButton onClick={() => handleOpen()} className={classes.button}>
-          <EditIcon color="primary" />
-        </IconButton>
-      </Tooltip>
+      <MyButton
+        tip="Edit details"
+        onClick={() => handleOpen()}
+        btnClassName={classes.button}
+      >
+        <EditIcon color="primary" />
+      </MyButton>
       <Dialog open={open} fullWidth maxWidth="sm">
         <DialogTitle>Edit your details</DialogTitle>
         <DialogContent>
